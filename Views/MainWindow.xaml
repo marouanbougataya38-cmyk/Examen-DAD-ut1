@@ -1,0 +1,59 @@
+<Window x:Class="BibliotecaDigital.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:BibliotecaDigital.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="Biblioteca Digital · Gestión de Alquiler"
+        Height="480" Width="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#F4F4F6" CornerRadius="8" Padding="12" Margin="0,0,0,12"
+                BorderBrush="#DDDDDD" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Nuevo libro:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox Text="{Binding NuevoTitulo, UpdateSourceTrigger=PropertyChanged}"
+                         Width="170" Padding="5" VerticalContentAlignment="Center" Margin="0,0,15,0"/>
+                <Label Content="Género:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <ComboBox ItemsSource="{Binding Generos}"
+                          SelectedItem="{Binding NuevoGenero}"
+                          Width="120" Padding="5" Margin="0,0,15,0"/>
+                <Label Content="Precio:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding NuevoPrecio}"
+                         Width="55" Padding="5" VerticalContentAlignment="Center" Margin="0,0,15,0"/>
+                <CheckBox Content="Disponible"
+                          IsChecked="{Binding NuevoDisponible}"
+                          VerticalAlignment="Center" Margin="0,0,15,0"/>
+                <Button Content="Agregar libro"
+                        Command="{Binding AgregarLibroCommand}"
+                        Padding="10,5" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Libros}" SelectedItem="{Binding LibroSeleccionado}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="45"/>
+                    <GridViewColumn Header="Título" DisplayMemberBinding="{Binding Titulo}" Width="240"/>
+                    <GridViewColumn Header="Género" DisplayMemberBinding="{Binding Genero}" Width="120"/>
+                    <GridViewColumn Header="Precio Alquiler" DisplayMemberBinding="{Binding PrecioAlquiler, StringFormat={}{0:C}}" Width="110"/>
+                    <GridViewColumn Header="Disponible" DisplayMemberBinding="{Binding Disponible}" Width="90"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Grid.Row="2" Margin="0,12,0,0">
+            <Run Text="Libro seleccionado: " FontWeight="SemiBold"/>
+            <Run Text="{Binding LibroSeleccionado.Titulo, FallbackValue='Ninguno'}" Foreground="#007ACC" FontWeight="Bold"/>
+        </TextBlock>
+    </Grid>
+</Window>
